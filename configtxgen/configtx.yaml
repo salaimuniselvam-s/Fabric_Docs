@@ -1,0 +1,52 @@
+# Anchors for the organizations
+Organizations:
+  - &Orderer
+    Name: Orderer
+    ID: OrdererMSP
+    MSPDir: ./crypto-config/ordererOrganizations/hospital.com/msp
+    AdminPrincipal: Role.MEMBER
+
+  - &Sms
+    Name: Sms
+    ID: SmsMSP
+    MSPDir: ./crypto-config/peerOrganizations/sms.com/msp
+    AdminPrincipal: Role.MEMBER
+    AnchorPeers:
+      - Host: localhost
+        Port: 7051
+
+# Configuration for the Orderer
+Orderer: &OrdererDefaults
+  OrdererType: solo
+
+  Addresses:
+    - localhost:7050
+
+  # Batch Timeout: The amount of time to wait before creating a batch
+  BatchTimeout: 2s
+
+  # Batch Size: Controls the number of messages batched into a block
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 98 MB
+    PreferredMaxBytes: 512 KB
+
+Application: &ApplicationDefaults
+  Organizations:
+
+Profiles:
+  SmsOrdererGenesis:
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *Orderer
+    Consortiums:
+      HospitalConsortieum:
+        Organizations:
+          - *Sms
+  SmsChannel:
+    Consortium: HospitalConsortieum
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Sms

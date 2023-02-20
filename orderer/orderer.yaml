@@ -7,8 +7,8 @@ General:
   # Used to be "GenesisMethod: file" in Fabric 1.x
   BootstrapMethod: file
 
-  # Used to be "GenesisFile: ./acme-genesis.block" in Fabric 1.x
-  BootstrapFile: ./acme-genesis.block
+  # Used to be "GenesisFile: ./hospital-genesis.block" in Fabric 1.x
+  BootstrapFile: ./hospital-genesis.block
 
   # BCCSP Setup
   BCCSP:
@@ -23,7 +23,7 @@ General:
 
   # Directory for the private crypto material needed by the
   # orderer.
-  LocalMSPDir: ./crypto-config/ordererOrganizations/acme.com/orderers/orderer.acme.com/msp
+  LocalMSPDir: ./crypto-config/ordererOrganizations/hospital.com/orderers/orderer.hospital.com/msp
 
   # Identity to register the local MSP material with the MSP
   LocalMSPID: OrdererMSP
@@ -78,9 +78,7 @@ General:
     RootCAs:
       - ./ca.crt
     ClientAuthRequired: false
-    # false means accepts connection from any source
     ClientRootCAs:
-    # list of ca clients that can be trusted
 
 ################################################################################
 #
@@ -91,7 +89,7 @@ FileLedger:
   # Location: The directory to store the blocks in.
   # Windows - if you get a LevelDb error in launching orderer use the VM file
   # by uncommenting the following line - comment the Location: ./ledger
-  Location: /home/vagrant/ledgers/orderer/simple-two-orgs/ledger
+  Location: ./ledger
 
   # The prefix to use when generating a ledger directory in temporary space.
   Prefix: hyperledger-fabric-ordererledger
@@ -179,8 +177,8 @@ Consensus:
 
   # WALDir specifies the location at which Write Ahead Logs for etcd/raft are
   # stored. Each channel will have its own subdir named after channel ID.
-  WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+  WALDir: ./etcdraft/wal
 
   # SnapDir specifies the location at which snapshots for etcd/raft are
   # stored. Each channel will have its own subdir named after channel ID.
-  SnapDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+  SnapDir: ./etcdraft/snapshot

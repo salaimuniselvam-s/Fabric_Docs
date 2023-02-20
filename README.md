@@ -205,3 +205,12 @@ Solo,Kafka,Raft for ordering & distribution. Raft(recommended)
   - peer channel update
     - it enables the admin to submit the signedUpdatedConfig to the orderer
     - eg: peer channel update -f ./filePathOfTheUpdatedConfig -o ordererAddress -c channelName
+
+### Chaincode LifeCycle
+
+It involves Chaincode Development, Installation , Approving and committing on the channel.
+
+- Develop the smartcontract and pack the chaincode which result in chaincode.tar.gz which contains code.tar.gx and metadata.json.
+- Package needs to be installed on peers and approve it by the orgs before using it.
+- package id must be same within org but does not need to be same across orgs.
+- peer lifecycle chaincode commands (package | install | queryInstalled)

@@ -1,0 +1,5 @@
+To Run --> fabric-ca-server start -b admin:adminpw
+
+Ref -->  https://raw.githubusercontent.com/acloudfan/HLF2-Miscellaneous/master/fabric-ca-swagger.yaml
+
+https://github.com/hyperledger/fabric-ca/tree/release-1.4/swagger

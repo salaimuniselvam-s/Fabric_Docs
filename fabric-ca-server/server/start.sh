@@ -1,0 +1,1 @@
+fabric-ca-server start -b admin:adminpw

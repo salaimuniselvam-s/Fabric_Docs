@@ -1,0 +1,194 @@
+# Updated for Fabric 2.x
+# policy.1
+# Simplified configtx.yaml
+
+# ORGANIZATIONS
+# Section Which Contains all the organization of the bootstap network
+Organizations:
+  - &Orderer
+    Name: OrdererMSP
+    SkipAsForeign: false
+    ID: OrdererMSP
+    MSPDir: ./crypto-config/ordererOrganizations/hospital.com/msp
+    Policies: &OrdererPolicies
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+
+  - &Hospital1
+    Name: Hospital1
+    ID: Hospital1MSP
+    MSPDir: ./crypto-config/peerOrganizations/hospital1.com/msp
+    Policies: &Hospital1Policies
+      Readers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.peer', 'AcmeMSP.client')"
+        Rule: "OR('Hospital1MSP.member')"
+      Writers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.client')"
+        Rule: "OR('Hospital1MSP.member')"
+      Admins:
+        Type: Signature
+        # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use AcmeMSP.admin
+        Rule: "OR('Hospital1MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Hospital1MSP.member')"
+    AnchorPeers:
+      - Host: peer1.hospital.com
+        Port: 7051
+  - &Hospital2
+    Name: Hospital2
+    ID: Hospital2MSP
+    MSPDir: ./crypto-config/peerOrganizations/hospital2.com/msp
+    Policies: &Hospital2Policies
+      Readers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.peer', 'AcmeMSP.client')"
+        Rule: "OR('Hospital2MSP.member')"
+      Writers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.client')"
+        Rule: "OR('Hospital2MSP.member')"
+      Admins:
+        Type: Signature
+        # UPDATE: Dec 25, 2029 - This is a dev env so its OK in Prod ... use AcmeMSP.admin
+        Rule: "OR('Hospital2MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Hospital2MSP.member')"
+    AnchorPeers:
+      - Host: peer2.hospital.com
+        Port: 7052
+  - &Hospital3
+    Name: Hospital3
+    ID: Hospital3MSP
+    MSPDir: ./crypto-config/peerOrganizations/hospital3.com/msp
+    Policies: &Hospital3Policies
+      Readers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.peer', 'AcmeMSP.client')"
+        Rule: "OR('Hospital3MSP.member')"
+      Writers:
+        Type: Signature
+        #   Rule: "OR('AcmeMSP.admin', 'AcmeMSP.client')"
+        Rule: "OR('Hospital3MSP.member')"
+      Admins:
+        Type: Signature
+        # UPDATE: Dec 15, 2019 - This is a dev env so its OK in Prod ... use AcmeMSP.admin
+        Rule: "OR('Hospital3MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Hospital3MSP.member')"
+    AnchorPeers:
+      - Host: peer3.hospital.com
+        Port: 9051
+
+#   ORDERER
+Orderer: &OrdererDefaults
+  OrdererType: solo
+
+  Addresses:
+    - localhost:7050
+
+  # Policies for Orderer
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      # UPDATED December 15, 2019
+      Rule: "ANY Admins"
+      # Rule: "MAJORITY Admins"
+
+    # BlockValidation specifies what signatures must be included in the block
+    # from the orderer for the peer to validate it.
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+  # Batch Timeout: The amount of time to wait before creating a batch
+  BatchTimeout: 2s
+
+  # Batch Size: Controls the number of messages batched into a block
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 98 MB
+    PreferredMaxBytes: 512 KB
+
+Application: &ApplicationDefaults # Default policies
+  Policies: &ApplicationDefaultPolicies # approveformyorg
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      # Rule: "MAJORITY Endorsement"
+      Rule: "ANY Endorsement"
+
+    # --channel-config-policy
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+
+  Organizations:
+
+#   CHANNEL
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+
+#   PROFILES
+Profiles:
+  HospitalOrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - <<: *Orderer
+    Consortiums:
+      HospitalConsortium:
+        Organizations:
+          - <<: *Hospital1
+          - <<: *Hospital2
+          - <<: *Hospital3
+
+  HospitalChannel:
+    <<: *ChannelDefaults
+    Consortium: HospitalConsortium
+
+    Application:
+      <<: *ApplicationDefaults
+
+      Organizations:
+        - <<: *Hospital1
+        - <<: *Hospital2
+        - <<: *Hospital3

@@ -10,7 +10,7 @@ const util = require("util");
 var Chaincode = class {
   // Initialize the chaincode
   async Init(stub) {
-    console.info("========= Init =========");
+    console.info("========= Initasas =========");
     let ret = stub.getFunctionAndParameters();
     console.info(ret);
     let args = ret.params;

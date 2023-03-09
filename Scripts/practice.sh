@@ -10,3 +10,7 @@ fi
 
 # if [[ $0 = *"env.sh" ]] -> if[[expression validation]]
 
+
+pgrep -> pgrep looks through the currently running processes and lists the process IDs which match the selection criteria to stdout
+  eg: -x --> exact flag
+      pgrep -help

@@ -8,7 +8,7 @@
 
 # Ensure that env is setup in the terminal
 
-. env.sh
+. ./env.sh
 
 # 1. Init the chaincode
    peer chaincode invoke --isInit -n hosp -C hospitalchannel -c '{"Args":["init","a","100","b","200"]}'

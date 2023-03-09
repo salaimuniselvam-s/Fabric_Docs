@@ -1,0 +1,1 @@
+configtxlator proto_decode --type common.Block --input hospital-genesis.block --output configtxlator.json

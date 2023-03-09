@@ -1,0 +1,10 @@
+
+https://hyperledger-fabric.readthedocs.io/en/latest/create_channel/create_channel_config.html
+
+cryptogen generate --config=./crypto-config.yaml
+
+configtxgen -profile HospitalOrdererGenesis -outputBlock ./hospital-genesis.block -channelID Hospitalchannel
+
+configtxgen -profile HospitalChannel -outputCreateChannelTx ./hospital-channel.tx -channelID hospitalchannel
+
+configtxgen -outputBlock ./hospital-genesis.block -profile HospitalOrdererGenesis -channelID HospitalChannel  

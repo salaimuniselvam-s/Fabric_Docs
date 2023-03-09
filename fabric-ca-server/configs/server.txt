@@ -1,0 +1,13 @@
+fabric-ca-server init
+
+fabric-ca-server start
+
+examine -> https://www.sslshopper.com/certificate-decoder.html -> paste the ca-cert.pem
+
+cd client
+
+export FABRIC_CA_CLIENT_HOME=`pwd`
+fabric-ca-client enroll -u http://admin:adminpw@localhost:7054
+  -> admin:adminpw bootstrap identity in the ca server
+
+you can add custom attributes in the identity section of the fabric ca server, that is used as an access control in chaincode

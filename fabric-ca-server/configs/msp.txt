@@ -1,0 +1,15 @@
+In Hyperledger Fabric, MSP (Membership Service Provider) is responsible for managing the digital identities of members in the network. When an organization joins a Fabric network, it creates an MSP that contains several cryptographic materials and certificates that are used to authenticate and authorize transactions.
+
+Here are the meanings of the different cryptographic materials and certificates in an MSP:
+
+admincerts: This folder contains the X.509 certificates of the administrators in the organization. These certificates are used to sign transactions and other administrative operations.
+
+cacerts: This folder contains the root and intermediate CA (Certificate Authority) certificates that are used to validate the digital certificates of other members in the network.
+
+keystore: This folder contains the private keys of the members in the organization. These private keys are used to sign transactions and other operations. (private Key)
+
+signcerts: This folder contains the X.509 certificates of the members in the organization. These certificates are used to authenticate the identity of the members. (public Key)
+
+tlscacerts: This folder contains the root and intermediate CA certificates that are used to establish a secure TLS (Transport Layer Security) connection between nodes in the network.
+
+In summary, these cryptographic materials and certificates are used to establish trust and authenticate the identity of the members in a Hyperledger Fabric network.

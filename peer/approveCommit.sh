@@ -1,7 +1,7 @@
 # 1. Get the package ID
     #  peer lifecycle chaincode queryinstalled
 
-CC_PACKAGE_ID=hosp.1.0-1.0:5651fc772cd9c3d342c917aebf6c7d11634c0f62b42a47e121d427f3d920041c 
+CC_PACKAGE_ID=hosp.1.0-1.0:687e0b285a66ab2465ff67ac7571e5d06f186708233639b17cfcda188ef7ed66 
 
 # 2. Approve the chaincode
 peer lifecycle chaincode approveformyorg -n hosp -v 1.0 -C hospitalchannel --sequence 1 --init-required --package-id $CC_PACKAGE_ID

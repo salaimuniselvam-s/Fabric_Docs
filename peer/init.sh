@@ -33,7 +33,7 @@ fi
 
 #5 Create the channel
 echo   '3. Creating the channel: hospitalchannel - may fail if already created'
-peer channel create -o localhost:7050 -c hospitalchannel  -f $CONFIG_DIRECTORY/hospital-channel.tx 
+peer channel create -o localhost:7050 -c hospitalchannel  -f ../orderer/hospital-channel.tx 
 
 #dialing: dial tcp [::1]:7051: connect: connection refused" - peer is not running
 

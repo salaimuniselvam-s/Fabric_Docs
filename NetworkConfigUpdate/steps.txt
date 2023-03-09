@@ -1,0 +1,30 @@
+up the orderer 
+
+up the peer and create channel on it
+
+peer channel fetch config -c hospitalchannel -o localhost:7050 ./temp/config_block.pb
+
+configtxlator proto_decode --input ./temp/config_block.pb --type common.Block > ./temp/config.json
+
+
+
+steps 
+
+# Fetch the latest Config Block
+
+1. Create a temp folder under the peer/simple-two-org
+2. Fetch the latest config block
+   > peer channel fetch config -c acmechannel -o localhost:7050 temp/config_block.pb
+3. Convert the block file to JSOn format
+   > configtxlator proto_decode --input ./temp/config_block.pb --type common.Block > ./temp/config_block.json
+4. Setup env variable for the config path
+   > export JQ_CONFIG_PATH=.data.data[0].payload.data.config.channel_group.groups.Orderer.values
+5. Print the config information using JQ
+   > cat ./temp/config_block.json | jq $JQ_CONFIG_PATH
+
+
+in setup policy.0.5 shows acl sections
+Application Policy or Channel Policy
+
+Application: &ApplicationDefaults
+  ACLs:
